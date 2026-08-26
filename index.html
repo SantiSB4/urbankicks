@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>UrbanKicks Colombia | Catálogo</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<header class="hero">
+  <img class="hero-art" src="assets/hero.png" alt="UrbanKicks Colombia">
+
+  <!-- Zonas invisibles sobre la portada original -->
+  <button class="hotspot hotspot-product h-jordan" onclick="goCatalog()" aria-label="Catálogo"></button>
+  <button class="hotspot hotspot-product h-air" onclick="goCatalog()" aria-label="Catálogo"></button>
+  <button class="hotspot hotspot-product h-nocta" onclick="goCatalog()" aria-label="Catálogo"></button>
+  <button class="hotspot h-catalogo" onclick="goCatalog()" aria-label="Catálogo"></button>
+  <button class="hotspot h-contacto" onclick="wa('Hola UrbanKicks 👋🔥 Quiero información sobre los tenis.')" aria-label="Contacto"></button>
+  <button class="hotspot h-whatsapp" onclick="wa('Hola UrbanKicks 👋🔥 Quiero información sobre los tenis disponibles.')" aria-label="WhatsApp"></button>
+</header>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-group">
+      <div class="ticker-item"><span>URBANKICKS</span> ♛</div>
+      <div class="ticker-item"><span>ENVÍOS</span> A TODA COLOMBIA</div>
+      <div class="ticker-item"><span>DAMA</span> · <span>CABALLERO</span></div>
+      <div class="ticker-item"><span>COMPRA</span> POR WHATSAPP</div>
+      <div class="ticker-item"><span>ATENCIÓN</span> RÁPIDA</div>
+    </div>
+    <div class="ticker-group">
+      <div class="ticker-item"><span>URBANKICKS</span> ♛</div>
+      <div class="ticker-item"><span>ENVÍOS</span> A TODA COLOMBIA</div>
+      <div class="ticker-item"><span>DAMA</span> · <span>CABALLERO</span></div>
+      <div class="ticker-item"><span>COMPRA</span> POR WHATSAPP</div>
+      <div class="ticker-item"><span>ATENCIÓN</span> RÁPIDA</div>
+    </div>
+  </div>
+</div>
+
+<main class="catalog" id="catalogo">
+  <div class="catalog-head">
+    <div class="kicker">CATÁLOGO COMPLETO</div>
+    <h1>Elige tu próximo <span>par</span></h1>
+    <p>Catálogo extraído de tu PDF de UrbanKicks. Las referencias se muestran con códigos temporales porque el PDF no trae nombres escritos para cada producto.</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="filters">
+      <button class="filter active" onclick="filterProducts('todos',this)">TODOS</button>
+      <button class="filter" onclick="filterProducts('dama',this)">DAMA</button>
+      <button class="filter" onclick="filterProducts('caballero',this)">CABALLERO</button>
+    </div>
+    <input class="search" type="search" placeholder="Buscar referencia..." oninput="searchProducts(this.value)">
+    <span class="count" id="count"></span>
+  </div>
+
+  <section class="products-grid" id="productsGrid"></section>
+</main>
+
+<a class="whatsapp-float" href="https://wa.me/573157431679?text=Hola%20UrbanKicks%20%F0%9F%91%8B%F0%9F%94%A5%20Quiero%20informaci%C3%B3n%20sobre%20los%20tenis." target="_blank" rel="noopener" aria-label="WhatsApp">◉</a>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()" aria-label="Cerrar">×</button>
+    <div class="modal-media"><img id="modalImage" src="" alt=""></div>
+    <div class="modal-info">
+      <span class="category" id="modalCategory"></span>
+      <h2 id="modalName"></h2>
+      <p id="modalRef"></p>
+      <p id="modalBrand"></p>
+      <div class="modal-price" id="modalPrice"></div>
+      <button class="modal-buy" id="modalBuy">CONSULTAR POR WHATSAPP</button>
+    </div>
+  </div>
+</div>
+
+<script src="productos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

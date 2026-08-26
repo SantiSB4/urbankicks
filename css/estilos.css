@@ -1,0 +1,77 @@
+*{box-sizing:border-box}
+:root{--yellow:#ffc400;--yellow2:#ffdf3d;--green:#25d366;--bg:#050505;--card:#111}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+button,input{font:inherit}
+.no-scroll{overflow:hidden}
+.hero{position:relative;width:100%;max-width:1536px;margin:auto;background:#000}
+.hero-art{display:block;width:100%;height:auto}
+.hotspot{position:absolute;border:0;background:transparent;cursor:pointer;z-index:4}
+.hotspot-product{border-radius:18px;transition:.25s}
+.hotspot-product:hover{box-shadow:inset 0 0 0 2px rgba(255,196,0,.8),0 0 30px rgba(255,196,0,.15);background:rgba(255,196,0,.04)}
+.h-jordan{left:7.5%;top:57%;width:27.5%;height:37%}
+.h-air{left:35.5%;top:57%;width:28%;height:37%}
+.h-nocta{left:63.5%;top:57%;width:28%;height:37%}
+.h-catalogo{left:62%;top:1%;width:9%;height:8%}
+.h-contacto{left:82%;top:1%;width:8%;height:8%}
+.h-whatsapp{left:89%;top:1%;width:10%;height:8%}
+.ticker-wrap{height:52px;background:#050505;border-top:1px solid #262626;border-bottom:1px solid #222;overflow:hidden;display:flex;align-items:center}
+.ticker{display:flex;width:max-content;animation:ticker 20s linear infinite}
+.ticker-group{display:flex;flex-shrink:0;align-items:center}
+.ticker-item{display:flex;align-items:center;gap:14px;padding:0 24px;white-space:nowrap;font-weight:900;text-transform:uppercase;font-size:16px}
+.ticker-item span{color:var(--yellow)}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.catalog{padding:75px clamp(18px,5vw,80px) 110px;background:radial-gradient(circle at 50% 0%,rgba(255,196,0,.1),transparent 30%),#050505}
+.catalog-head{max-width:950px;margin:0 auto 35px;text-align:center}
+.kicker{color:var(--yellow);font-size:13px;font-weight:900;letter-spacing:3px}
+.catalog-head h1{font-size:clamp(32px,5vw,60px);margin:9px 0 12px;text-transform:uppercase}
+.catalog-head h1 span{color:var(--yellow)}
+.catalog-head p{color:#999;line-height:1.6;margin:0}
+.toolbar{max-width:1250px;margin:0 auto 32px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.filters{display:flex;gap:9px;flex-wrap:wrap}
+.filter{background:#111;color:#ddd;border:1px solid #333;border-radius:999px;padding:11px 18px;font-weight:900;cursor:pointer;transition:.2s}
+.filter:hover,.filter.active{background:var(--yellow);color:#111;border-color:var(--yellow)}
+.search{background:#111;color:#fff;border:1px solid #333;border-radius:999px;padding:12px 18px;outline:none;min-width:230px}
+.search:focus{border-color:var(--yellow)}
+.count{color:#777;font-size:13px;font-weight:700}
+.products-grid{max-width:1250px;margin:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.product-card{background:linear-gradient(145deg,#191919,#0b0b0b);border:1px solid #292929;border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s}
+.product-card:hover{transform:translateY(-7px);border-color:var(--yellow);box-shadow:0 20px 45px rgba(0,0,0,.55)}
+.product-image-wrap{height:235px;position:relative;background:#f3f3f3;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.product-image-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.product-card:hover .product-image-wrap img{transform:scale(1.07)}
+.ref-badge{position:absolute;left:10px;top:10px;z-index:2;background:rgba(0,0,0,.82);color:var(--yellow);border:1px solid rgba(255,196,0,.6);border-radius:6px;padding:6px 8px;font-size:10px;font-weight:900}
+.product-info{padding:15px}
+.category{font-size:10px;color:var(--yellow);font-weight:900;letter-spacing:1px}
+.product-info h3{font-size:17px;margin:7px 0 4px;text-transform:uppercase}
+.brand{font-size:11px;color:#777;margin:0 0 13px}
+.product-bottom{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.product-bottom strong{font-size:17px;color:var(--yellow)}
+.buy{border:0;background:var(--yellow);color:#111;border-radius:8px;padding:10px 11px;font-size:11px;font-weight:900;cursor:pointer;transition:.2s}
+.buy:hover{background:var(--yellow2);transform:scale(1.03)}
+
+.whatsapp-float{position:fixed;right:22px;bottom:22px;width:62px;height:62px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:27px;font-weight:900;z-index:100;box-shadow:0 8px 30px rgba(37,211,102,.3)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(7px);z-index:200;display:none;align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}
+.modal-box{position:relative;width:min(950px,100%);max-height:92vh;overflow:auto;background:#111;border:1px solid #333;border-radius:20px;display:grid;grid-template-columns:1.1fr .9fr;box-shadow:0 30px 100px #000}
+.modal-media{background:#eee;min-height:500px;display:flex;align-items:center;justify-content:center}
+.modal-media img{width:100%;height:100%;max-height:650px;object-fit:contain}
+.modal-info{padding:35px;display:flex;flex-direction:column;justify-content:center}
+.modal-info .category{font-size:12px}
+.modal-info h2{font-size:34px;margin:10px 0}
+.modal-info p{color:#888}
+.modal-price{font-size:34px;color:var(--yellow);font-weight:900;margin:20px 0}
+.modal-buy{border:0;background:var(--yellow);color:#111;border-radius:10px;padding:15px;font-weight:900;cursor:pointer}
+.close{position:absolute;right:14px;top:12px;width:40px;height:40px;border-radius:50%;border:1px solid #555;background:#111;color:#fff;font-size:24px;cursor:pointer;z-index:3}
+
+@media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:800px){.products-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.modal-box{grid-template-columns:1fr}.modal-media{min-height:330px}.modal-info{padding:24px}.modal-info h2{font-size:27px}}
+@media(max-width:560px){
+ .ticker-wrap{height:43px}.ticker-item{font-size:12px;padding:0 14px}
+ .catalog{padding:55px 14px 80px}
+ .toolbar{align-items:stretch}.filters{width:100%}.filter{flex:1;padding:10px 12px}.search{width:100%;min-width:0}
+ .products-grid{grid-template-columns:1fr;gap:15px}
+ .product-image-wrap{height:300px}
+ .whatsapp-float{width:56px;height:56px;right:15px;bottom:15px}
+}
