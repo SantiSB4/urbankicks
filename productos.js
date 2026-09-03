@@ -2621,5 +2621,21 @@ const productos = [
     "descuento": "",
     "imagen": "assets/products/caballero-120.jpg",
     "pagina_catalogo": 46
-  }
+  },
 ];
+  // =====================================================
+// CONFIGURACIÓN AUTOMÁTICA DE PRECIOS Y DESCUENTOS
+// =====================================================
+
+productos.forEach(producto => {
+
+  // Si el producto no tiene precio, asignar precio por defecto
+  if (!producto.precio || producto.precio === "Consultar") {
+    producto.precio = "$180.000";
+  }
+  // Si el producto no tiene descuento, asignar descuento por defecto
+  if (!producto.descuento) {
+    producto.descuento = "20% OFF";
+  }
+  
+});
