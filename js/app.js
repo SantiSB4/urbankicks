@@ -23,7 +23,7 @@ function renderProducts(list = productos){
   grid.innerHTML = list.map(p => `
     <article class="product-card" onclick="openProduct('${p.id}')">
       <div class="product-image-wrap">
-        <span class="ref-badge">${p.id}</span>
+        <span class="discount-badge">${p.descuento || "20% OFF"}</span>
         <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
       </div>
       <div class="product-info">
