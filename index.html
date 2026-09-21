@@ -8,7 +8,86 @@
 <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+  
+<!-- BOTÓN DEL CARRITO -->
 
+<button
+  class="cart-floating-button"
+  onclick="abrirCarrito()"
+>
+  🛒
+  <span id="cartCount">0</span>
+</button>
+
+
+<!-- PANEL DEL CARRITO -->
+
+<div id="cartPanel" class="cart-panel">
+
+  <div class="cart-header">
+
+    <h2>Mi carrito</h2>
+
+    <button onclick="cerrarCarrito()">
+      ✕
+    </button>
+
+  </div>
+
+
+  <div
+    id="cartItems"
+    class="cart-items"
+  ></div>
+
+
+  <div class="cart-footer">
+
+    <div class="cart-total">
+
+      <span>Total</span>
+
+      <strong id="cartTotal">
+        $0
+      </strong>
+
+    </div>
+
+
+    <div class="customer-form">
+
+      <h3>Datos de entrega</h3>
+
+      <input
+        type="text"
+        id="clienteNombre"
+        placeholder="Nombre completo"
+      >
+
+      <input
+        type="text"
+        id="clienteCiudad"
+        placeholder="Ciudad"
+      >
+
+      <textarea
+        id="clienteDireccion"
+        placeholder="Dirección de entrega"
+      ></textarea>
+
+    </div>
+
+
+    <button
+      class="checkout-button"
+      onclick="finalizarCompra()"
+    >
+      FINALIZAR COMPRA POR WHATSAPP
+    </button>
+
+  </div>
+
+</div>
 <header class="hero">
   <img class="hero-art" src="assets/hero.png" alt="UrbanKicks Colombia">
 
@@ -38,6 +117,74 @@
       <div class="ticker-item"><span>ATENCIÓN</span> RÁPIDA</div>
     </div>
   </div>
+</div>
+
+<!-- CARRITO DE COMPRAS -->
+
+<button
+  class="cart-floating-button"
+  onclick="abrirCarrito()"
+  aria-label="Abrir carrito"
+>
+  🛒
+  <span id="cartCount">0</span>
+</button>
+
+<div id="cartPanel" class="cart-panel">
+
+  <div class="cart-header">
+    <h2>Mi carrito</h2>
+
+    <button
+      class="cart-close"
+      onclick="cerrarCarrito()"
+      aria-label="Cerrar carrito"
+    >
+      ×
+    </button>
+  </div>
+
+  <div id="cartItems" class="cart-items"></div>
+
+  <div class="cart-footer">
+
+    <div class="cart-total">
+      <span>Total</span>
+      <strong id="cartTotal">$0</strong>
+    </div>
+
+    <div class="customer-form">
+
+      <h3>Datos de entrega</h3>
+
+      <input
+        type="text"
+        id="clienteNombre"
+        placeholder="Nombre completo"
+      >
+
+      <input
+        type="text"
+        id="clienteCiudad"
+        placeholder="Ciudad"
+      >
+
+      <textarea
+        id="clienteDireccion"
+        placeholder="Dirección de entrega"
+      ></textarea>
+
+    </div>
+
+    <button
+      class="checkout-button"
+      onclick="finalizarCompra()"
+    >
+      FINALIZAR COMPRA POR WHATSAPP
+    </button>
+
+  </div>
+
 </div>
 
 <main class="catalog" id="catalogo">
