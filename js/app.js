@@ -1,93 +1,447 @@
 const WHATSAPP = "573157431679";
 
-function wa(message){
-  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+// =====================================================
+// WHATSAPP
+// =====================================================
+
+function wa(message) {
+  window.open(
+    `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`,
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
-function buyProduct(p){
-  wa(`Hola UrbanKicks 👋🔥
 
-Estoy interesado en:
-👟 ${p.nombre}
-🏷️ ${p.genero.toUpperCase()}
-📦 Código: ${p.id}
+// =====================================================
+// CARRITO
+// =====================================================
 
-Quiero consultar disponibilidad, tallas y precio.`);
+let carrito = [];
+
+
+// Agregar producto al carrito
+function agregarAlCarrito(id) {
+
+  const producto = productos.find(p => p.id === id);
+
+  if (!producto) {
+    alert("No se encontró este producto.");
+    return;
+  }
+
+  const tallaSelect = document.getElementById(`talla-${id}`);
+
+  if (!tallaSelect) {
+    alert("Selecciona una talla.");
+    return;
+  }
+
+  const talla = tallaSelect.value;
+
+  if (!talla) {
+    alert("Por favor selecciona una talla.");
+    return;
+  }
+
+  const existente = carrito.find(
+    item => item.id === id && item.talla === talla
+  );
+
+  if (existente) {
+    existente.cantidad++;
+  } else {
+    carrito.push({
+      id: producto.id,
+      nombre: producto.nombre,
+      marca: producto.marca,
+      precio: producto.precio || "$180.000",
+      descuento: producto.descuento || "20% OFF",
+      imagen: producto.imagen,
+      talla: talla,
+      cantidad: 1
+    });
+  }
+
+  actualizarCarrito();
+
+  mostrarNotificacion(
+    `${producto.nombre} agregado al carrito 🛒`
+  );
 }
 
-function renderProducts(list = productos){
+
+// =====================================================
+// ELIMINAR DEL CARRITO
+// =====================================================
+
+function eliminarDelCarrito(index) {
+  carrito.splice(index, 1);
+  actualizarCarrito();
+}
+
+
+// =====================================================
+// CAMBIAR CANTIDAD
+// =====================================================
+
+function cambiarCantidad(index, cambio) {
+
+  carrito[index].cantidad += cambio;
+
+  if (carrito[index].cantidad <= 0) {
+    carrito.splice(index, 1);
+  }
+
+  actualizarCarrito();
+}
+
+
+// =====================================================
+// CONVERTIR PRECIO
+// =====================================================
+
+function obtenerNumeroPrecio(precio) {
+
+  if (!precio) return 0;
+
+  const numero = String(precio)
+    .replace(/\$/g, "")
+    .replace(/\./g, "")
+    .replace(/,/g, "")
+    .replace(/\s/g, "");
+
+  return parseInt(numero) || 0;
+}
+
+
+// =====================================================
+// FORMATEAR PRECIO
+// =====================================================
+
+function formatearPrecio(numero) {
+  return "$" + numero.toLocaleString("es-CO");
+}
+
+
+// =====================================================
+// ACTUALIZAR CARRITO
+// =====================================================
+
+function actualizarCarrito() {
+
+  const contador = document.getElementById("cartCount");
+
+  if (contador) {
+    const cantidadTotal = carrito.reduce(
+      (total, producto) => total + producto.cantidad,
+      0
+    );
+
+    contador.textContent = cantidadTotal;
+  }
+
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+
+  if (!cartItems || !cartTotal) return;
+
+  if (carrito.length === 0) {
+
+    cartItems.innerHTML = `
+      <div class="carrito-vacio">
+        <div class="carrito-vacio-icon">🛒</div>
+        <h3>Tu carrito está vacío</h3>
+        <p>Agrega tus tenis favoritos para continuar.</p>
+      </div>
+    `;
+
+    cartTotal.textContent = "$0";
+    return;
+  }
+
+  let total = 0;
+
+  cartItems.innerHTML = carrito.map((producto, index) => {
+
+    const precio = obtenerNumeroPrecio(producto.precio);
+    const subtotal = precio * producto.cantidad;
+
+    total += subtotal;
+
+    return `
+      <div class="cart-item">
+
+        <img
+          src="${producto.imagen}"
+          alt="${producto.nombre}"
+        >
+
+        <div class="cart-item-info">
+
+          <strong>${producto.nombre}</strong>
+
+          <span>${producto.marca}</span>
+
+          <span>Talla: ${producto.talla}</span>
+
+          <strong>
+            ${formatearPrecio(precio)}
+          </strong>
+
+          <div class="cantidad-control">
+
+            <button onclick="cambiarCantidad(${index}, -1)">
+              −
+            </button>
+
+            <span>${producto.cantidad}</span>
+
+            <button onclick="cambiarCantidad(${index}, 1)">
+              +
+            </button>
+
+          </div>
+
+          <button
+            class="eliminar-producto"
+            onclick="eliminarDelCarrito(${index})"
+          >
+            Eliminar
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+  cartTotal.textContent = formatearPrecio(total);
+}
+
+
+// =====================================================
+// ABRIR / CERRAR CARRITO
+// =====================================================
+
+function abrirCarrito() {
+
+  const carritoPanel = document.getElementById("cartPanel");
+
+  if (carritoPanel) {
+    carritoPanel.classList.add("active");
+  }
+}
+
+
+function cerrarCarrito() {
+
+  const carritoPanel = document.getElementById("cartPanel");
+
+  if (carritoPanel) {
+    carritoPanel.classList.remove("active");
+  }
+}
+
+
+// =====================================================
+// FINALIZAR COMPRA
+// =====================================================
+
+function finalizarCompra() {
+
+  if (carrito.length === 0) {
+
+    alert("Tu carrito está vacío.");
+
+    return;
+  }
+
+  const nombre = document.getElementById("clienteNombre")?.value.trim();
+  const ciudad = document.getElementById("clienteCiudad")?.value.trim();
+  const direccion = document.getElementById("clienteDireccion")?.value.trim();
+
+  if (!nombre || !ciudad || !direccion) {
+
+    alert(
+      "Por favor completa tu nombre, ciudad y dirección."
+    );
+
+    return;
+  }
+
+  let total = 0;
+
+  let mensaje = `Hola UrbanKicks 👋🔥
+
+Quiero realizar el siguiente pedido:
+
+`;
+
+  carrito.forEach((producto, index) => {
+
+    const precio = obtenerNumeroPrecio(producto.precio);
+
+    const subtotal = precio * producto.cantidad;
+
+    total += subtotal;
+
+    mensaje += `${index + 1}. ${producto.nombre}
+Marca: ${producto.marca}
+Talla: ${producto.talla}
+Cantidad: ${producto.cantidad}
+Precio: ${formatearPrecio(precio)}
+Subtotal: ${formatearPrecio(subtotal)}
+
+`;
+
+  });
+
+  mensaje += `TOTAL: ${formatearPrecio(total)}
+
+DATOS DEL CLIENTE
+
+Nombre: ${nombre}
+Ciudad: ${ciudad}
+Dirección: ${direccion}
+
+Quedo atento para confirmar disponibilidad y realizar el pago.`;
+
+  wa(mensaje);
+}
+
+
+// =====================================================
+// NOTIFICACIÓN
+// =====================================================
+
+function mostrarNotificacion(mensaje) {
+
+  let notificacion = document.getElementById("cartNotification");
+
+  if (!notificacion) {
+
+    notificacion = document.createElement("div");
+
+    notificacion.id = "cartNotification";
+
+    document.body.appendChild(notificacion);
+  }
+
+  notificacion.textContent = mensaje;
+
+  notificacion.classList.add("show");
+
+  setTimeout(() => {
+    notificacion.classList.remove("show");
+  }, 2500);
+}
+
+
+// =====================================================
+// RENDERIZAR PRODUCTOS
+// =====================================================
+
+function renderProducts(list = productos) {
+
   const grid = document.getElementById("productsGrid");
+
   const count = document.getElementById("count");
-  count.textContent = `${list.length} referencias`;
+
+  if (!grid) return;
+
+  if (count) {
+    count.textContent = `${list.length} referencias`;
+  }
 
   grid.innerHTML = list.map(p => `
-    <article class="product-card" onclick="openProduct('${p.id}')">
+
+    <article class="product-card">
+
       <div class="product-image-wrap">
-        <span class="discount-badge">${p.descuento || "20% OFF"}</span>
-        <img src="${p.imagen}" alt="${p.nombre}" loading="lazy">
+
+        <span class="discount-badge">
+          ${p.descuento || "20% OFF"}
+        </span>
+
+        <img
+          src="${p.imagen}"
+          alt="${p.nombre}"
+          loading="lazy"
+        >
+
       </div>
+
       <div class="product-info">
-        <span class="category">${p.genero === "dama" ? "DAMA" : "CABALLERO"}</span>
+
+        <span class="category">
+          ${p.genero === "dama" ? "DAMA" : "CABALLERO"}
+        </span>
+
         <h3>${p.nombre}</h3>
-        <p class="brand">Marca: ${p.marca}</p>
-        <div class="product-bottom">
-          <strong>${p.precio}</strong>
-          <button class="buy" onclick="event.stopPropagation();buyProduct(${JSON.stringify(p).replace(/"/g,'&quot;')})">
-            <span>◉</span> WHATSAPP
-          </button>
+
+        <p class="brand">
+          ${p.marca}
+        </p>
+
+        <div class="product-price">
+          <strong>
+            ${p.precio || "$180.000"}
+          </strong>
         </div>
+
+        <div class="talla-container">
+
+          <label for="talla-${p.id}">
+            Selecciona tu talla:
+          </label>
+
+          <select id="talla-${p.id}">
+
+            <option value="">
+              Elegir talla
+            </option>
+
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+            <option value="40">40</option>
+            <option value="41">41</option>
+            <option value="42">42</option>
+            <option value="43">43</option>
+            <option value="44">44</option>
+            <option value="45">45</option>
+
+          </select>
+
+        </div>
+
+        <button
+          class="add-cart-button"
+          onclick="agregarAlCarrito('${p.id}')"
+        >
+          🛒 AGREGAR AL CARRITO
+        </button>
+
       </div>
+
     </article>
+
   `).join("");
 }
 
-function openProduct(id){
-  const p = productos.find(x => x.id === id);
-  if(!p) return;
-  document.getElementById("modalImage").src = p.imagen;
-  document.getElementById("modalImage").alt = p.nombre;
-  document.getElementById("modalRef").textContent = p.id;
-  document.getElementById("modalCategory").textContent = p.genero.toUpperCase();
-  document.getElementById("modalName").textContent = p.nombre;
-  document.getElementById("modalBrand").textContent = `Marca: ${p.marca}`;
-  document.getElementById("modalPrice").textContent = p.precio;
-  document.getElementById("modalBuy").onclick = () => buyProduct(p);
-  document.getElementById("modal").classList.add("show");
-  document.body.classList.add("no-scroll");
-}
 
-function closeModal(){
-  document.getElementById("modal").classList.remove("show");
-  document.body.classList.remove("no-scroll");
-}
+// =====================================================
+// INICIAR
+// =====================================================
 
-function filterProducts(gender, btn){
-  document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active");
-  const list = gender === "todos" ? productos : productos.filter(p=>p.genero===gender);
-  renderProducts(list);
-  document.getElementById("catalogo").scrollIntoView({behavior:"smooth", block:"start"});
-}
+document.addEventListener("DOMContentLoaded", () => {
 
-function searchProducts(value){
-  const q=value.trim().toLowerCase();
-  const list=!q ? productos : productos.filter(p =>
-    `${p.id} ${p.nombre} ${p.marca} ${p.genero}`.toLowerCase().includes(q)
-  );
-  renderProducts(list);
-}
-
-function goCatalog(){
-  document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});
-}
-
-document.addEventListener("keydown", e=>{
-  if(e.key==="Escape") closeModal();
-});
-
-document.addEventListener("DOMContentLoaded", ()=>{
   renderProducts();
-  document.getElementById("modal").addEventListener("click", e=>{
-    if(e.target.id==="modal") closeModal();
-  });
+
+  actualizarCarrito();
+
 });
