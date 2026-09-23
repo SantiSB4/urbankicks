@@ -433,6 +433,63 @@ function renderProducts(list = productos) {
   `).join("");
 }
 
+// =====================================================
+// FILTROS Y BUSCADOR
+// =====================================================
+
+let filtroActual = "todos";
+
+function filterProducts(categoria, boton) {
+
+  filtroActual = categoria;
+
+  document.querySelectorAll(".filter").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  if (boton) {
+    boton.classList.add("active");
+  }
+
+  aplicarFiltros();
+}
+
+function searchProducts(texto) {
+  aplicarFiltros(texto);
+}
+
+function aplicarFiltros(texto = null) {
+
+  const buscador = document.querySelector(".search");
+
+  const textoBusqueda = texto !== null
+    ? texto
+    : (buscador ? buscador.value : "");
+
+  const busqueda = textoBusqueda.toLowerCase().trim();
+
+  let lista = productos.filter(producto => {
+
+    const coincideGenero =
+      filtroActual === "todos" ||
+      producto.genero === filtroActual;
+
+    const contenido = `
+      ${producto.id}
+      ${producto.nombre}
+      ${producto.marca}
+      ${producto.genero}
+    `.toLowerCase();
+
+    const coincideBusqueda =
+      busqueda === "" ||
+      contenido.includes(busqueda);
+
+    return coincideGenero && coincideBusqueda;
+  });
+
+  renderProducts(lista);
+}
 
 // =====================================================
 // INICIAR
